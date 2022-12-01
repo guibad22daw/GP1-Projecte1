@@ -18,6 +18,15 @@ function iniciar() {
                 res.end();
 			});
         }
+        else if (reqUrl.pathname == '/') {
+			fs.readFile('./index.html', function(err, sortida) {
+				res.writeHead(200, {
+					'Content-Type' : 'text/html'
+				});
+				res.write(sortida);
+                res.end();
+			});
+        }
         /*else if(reqUrl.pathname=='/numParell'){
             res.writeHead(200, {
                 "Content-Type": "text/html; charset=utf-8"
