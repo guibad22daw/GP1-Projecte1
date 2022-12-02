@@ -8,6 +8,7 @@ const deleteEventModal = document.getElementById('deleteEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday',];
+let comptador = 0;
 
 function openModal(date) {
     clicked = date;
@@ -50,7 +51,6 @@ function load() {
     document.getElementById('monthDisplay').innerText =`${dt.toLocaleDateString('ca-CA', { month: 'long' }).toUpperCase()} ${year}`;
 
     calendar.innerHTML = '';
-
     for (let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
         daySquare.classList.add('day');
@@ -73,8 +73,11 @@ function load() {
             }
 
             daySquare.addEventListener('click', () => openModal(dayString));
+            daySquare.id = i - comptador;
         } else {
             daySquare.classList.add('padding');
+            comptador += 1;
+            
         }
 
         calendar.appendChild(daySquare);
@@ -114,16 +117,6 @@ function deleteEvent() {
 }
 
 function initButtons() {
-    document.getElementById('nextButton').addEventListener('click', () => {
-        nav++;
-        load();
-    });
-
-    document.getElementById('backButton').addEventListener('click', () => {
-        nav--;
-        load();
-    });
-
     document.getElementById('saveButton').addEventListener('click', saveEvent);
     document.getElementById('cancelButton').addEventListener('click', closeModal);
     document.getElementById('deleteButton').addEventListener('click', deleteEvent);
