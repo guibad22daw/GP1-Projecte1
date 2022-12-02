@@ -21,16 +21,13 @@ function iniciar() {
         const ruta = reqUrl.pathname;
         let cadenaConnexio = 'mongodb://127.0.0.1:27017/GP1';
 
-        if (ruta == '/login') {
-            fs.readFile('./M11_mongoDB.html', function (err, sortida) {
-                response.writeHead(200, {
-                    "Content-Type": "text/html; charset=utf-8"
-                });
-                response.write(sortida);
-                response.end();
-            });        
+        if (ruta == '/') {
+            response.writeHead(301, {
+                Location: `/login`
+              }).end();       
         }
-        else if (ruta == '/') {
+        
+        else if (ruta == '/login') {
             fs.readFile('./M11_mongoDB.html', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/html; charset=utf-8"
