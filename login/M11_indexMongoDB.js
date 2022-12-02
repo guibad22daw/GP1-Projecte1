@@ -8,13 +8,12 @@
  * CHANGELOG
  * 08.10.2015
  * - arxiu principal que arrenca el servidor HTTP
- *
  * 01.11.2021
- * actualització a Mongo Client 4.1.3
+ * - actualització a client MongoDB 4.x 
  * NOTES
  * ORIGEN
  * Desenvolupament Aplicacions Web. Jesuïtes el Clot
  */
-var server = require("./M10_servidorMongoDB");
+var server = require("./M11_servidorMongoDB");
 
 server.iniciar();
