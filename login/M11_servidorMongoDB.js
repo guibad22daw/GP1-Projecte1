@@ -1,22 +1,3 @@
-/*
- * Servidor HTTP millorat amb Node JS. 
- * Connecta amb MongoDB i realitza diverses operacions CRUD
- * @author sergi grau, sergi.grau@fje.edu
- * @version 2.0
- * date 06.04.2017
- * format del document UTF-8
- *
- * CHANGELOG
- * 08.04.2016
- * - Connecta amb MongoDB i realitza diverses operacions CRUD
- * 06.04.2017
- * - millora la sortida de les operacions realitzades amb mongodb
- * 01.11.2021
- * - actualització a client MongoDB 4.x  
- * NOTES
- * ORIGEN
- * Desenvolupament Aplicacions Web. Jesuïtes el Clot
- */
 let http = require("http");
 let fs = require('fs');
 
@@ -45,13 +26,18 @@ function iniciar() {
                 response.writeHead(200, {
                     "Content-Type": "text/html; charset=utf-8"
                 });
-                fs.readFile('./estils.css', function (err, sortida) {
-                    response.writeHead(200, {
-                        "Content-Type": "text/css; charset=utf-8"
-                    });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/') {
+            fs.readFile('./M11_mongoDB.html', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/html; charset=utf-8"
                 });
-            });
-                     
+                response.write(sortida);
+                response.end();
+            });        
         }
         else if (ruta == '/desa') {
             MongoClient.connect(cadenaConnexio, function (err, client) {
@@ -66,7 +52,7 @@ function iniciar() {
                 console.log("Afegit document a col·lecció proves");
 
 
-                fs.readFile('./M11_mongoDB.html', function (err, sortida) {
+                fs.readFile('../calendari/index.html', function (err, sortida) {
                     response.writeHead(200, {
                         "Content-Type": "text/html; charset=utf-8"
                     });
@@ -99,7 +85,6 @@ function iniciar() {
                     }
                 }));
             });
-            
         }
         else {
             response.writeHead(404, {
@@ -109,10 +94,7 @@ function iniciar() {
             response.write(sortida);
             response.end();
         }
-
-
     }
-
     http.createServer(onRequest).listen(8888);
     console.log("Servidor iniciat.");
 }
