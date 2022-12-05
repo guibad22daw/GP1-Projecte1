@@ -27,7 +27,7 @@ function iniciar() {
         }
         
         else if (ruta == '/login') {
-            fs.readFile('./login.html', function (err, sortida) {
+            fs.readFile('./login/login.html', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/html; charset=utf-8"
                 });
@@ -37,7 +37,7 @@ function iniciar() {
         }
 
         else if (ruta == '/index.css') {
-            fs.readFile('../calendari/index.css', function (err, sortida) {
+            fs.readFile('./calendari/index.css', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/css; charset=utf-8"
                 });
@@ -47,7 +47,7 @@ function iniciar() {
         }
 
         else if (ruta == '/index.js') {
-            fs.readFile('../calendari/index.js', function (err, sortida) {
+            fs.readFile('./calendari/index.js', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/javascript; charset=utf-8"
                 });
@@ -74,7 +74,7 @@ function iniciar() {
         }
 
         else if (ruta == '/calendari') {
-            fs.readFile('../calendari/index.html', function (err, sortida) {
+            fs.readFile('./calendari/index.html', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/html; charset=utf-8"
                 });
