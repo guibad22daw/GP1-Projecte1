@@ -8,7 +8,6 @@ let ObjectId = require('mongodb').ObjectID;
 
 let crud = {
     afegirDocument: function (alumne, db, err, callback) {
-
     }
 };
 
@@ -24,7 +23,7 @@ function iniciar() {
         if (ruta == '/') {
             response.writeHead(301, {
                 Location: `/login`
-              }).end();       
+            }).end();       
         }
         
         else if (ruta == '/login') {
@@ -36,6 +35,27 @@ function iniciar() {
                 response.end();
             });        
         }
+
+        else if (ruta == '/index.css') {
+            fs.readFile('../calendari/index.css', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/css; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+
+        else if (ruta == '/index.js') {
+            fs.readFile('../calendari/index.js', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/javascript; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+
         else if (ruta == '/desa') {
             MongoClient.connect(cadenaConnexio, function (err, client) {
                 assert.equal(null, err);
@@ -47,17 +67,22 @@ function iniciar() {
                 });
                 assert.equal(err, null);
                 console.log("Afegit document a col·lecció proves");
-
-
-                fs.readFile('../calendari/index.html', function (err, sortida) {
-                    response.writeHead(200, {
-                        "Content-Type": "text/html; charset=utf-8"
-                    });
-                    response.write(sortida);
-                    response.end();
-                });
+                response.writeHead(301, {
+                    Location: `/calendari`
+                }).end();       
             });
         }
+
+        else if (ruta == '/calendari') {
+            fs.readFile('../calendari/index.html', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/html; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });
+        }
+        
         else if (ruta == '/consulta') {
             MongoClient.connect(cadenaConnexio, function (err, client) {
                 assert.equal(null, err);
