@@ -27,7 +27,7 @@ function iniciar() {
         }
         
         else if (ruta == '/login') {
-            fs.readFile('./M11_mongoDB.html', function (err, sortida) {
+            fs.readFile('./login.html', function (err, sortida) {
                 response.writeHead(200, {
                     "Content-Type": "text/html; charset=utf-8"
                 });
@@ -82,7 +82,7 @@ function iniciar() {
                 response.end();
             });
         }
-        
+
         else if (ruta == '/consulta') {
             MongoClient.connect(cadenaConnexio, function (err, client) {
                 assert.equal(null, err);
