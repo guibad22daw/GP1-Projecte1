@@ -1,5 +1,6 @@
 let http = require("http");
 let fs = require('fs');
+var cookie = require('cookie');
 
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert'); //utilitzem assercions
@@ -67,10 +68,16 @@ function iniciar() {
                 });
                 assert.equal(err, null);
                 console.log("Afegit document a col·lecció proves");
-                response.writeHead(301, {
-                    Location: `/calendari`
-                }).end();       
+                var id;
+                db.collection('proves').findOne({ nom:`${reqUrl.searchParams.get('nom')}`}, function(err, result) {
+                    if (err) throw err;
+                    console.log(result._id);
+                });
+                
             });
+            response.writeHead(301, {
+                Location: `/calendari`
+            }).end();       
         }
 
         else if (ruta == '/calendari') {
