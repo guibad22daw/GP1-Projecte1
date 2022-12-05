@@ -108,6 +108,44 @@ function iniciar() {
                 }));
             });
         }
+
+        // INFO
+        else if (ruta == '/informacio') {
+            fs.readFile('./info/info.html', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/html; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/banc_temps.mp4') {
+            fs.readFile('./info/banc_temps.mp4', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "video/mp4; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/info.css') {
+            fs.readFile('./info/info.css', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/css; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/info.js') {
+            fs.readFile('./info/info.js', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/js; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
         else {
             response.writeHead(404, {
                 "Content-Type": "text/html; charset=utf-8"
