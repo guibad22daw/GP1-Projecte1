@@ -36,7 +36,34 @@ function iniciar() {
                 response.end();
             });        
         }
-
+        else if (ruta == '/logo.png') {
+            fs.readFile('./login/logo.png', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/css; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/login.js') {
+            fs.readFile('./login/login.js', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/css; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        else if (ruta == '/imagen-fondo.png') {
+            fs.readFile('./login/imagen-fondo.png', function (err, sortida) {
+                response.writeHead(200, {
+                    "Content-Type": "text/css; charset=utf-8"
+                });
+                response.write(sortida);
+                response.end();
+            });        
+        }
+        
         else if (ruta == '/index.css') {
             fs.readFile('./calendari/index.css', function (err, sortida) {
                 response.writeHead(200, {
