@@ -57,7 +57,7 @@ function onRequest(req, res) {
     else if (ruta == '/imagen-fondo.png') {
         fs.readFile('./login/imagen-fondo.png', function (err, sortida) {
             res.writeHead(200, {
-                "Content-Type": "text/css; charset=utf-8"
+                "Content-Type": "image/png; charset=utf-8"
             });
             res.write(sortida);
             res.end();
@@ -88,32 +88,32 @@ function onRequest(req, res) {
     else if (ruta == '/desa') {
         MongoClient.connect(cadenaConnexio, function (err, client) {
             assert.equal(null, err);
-            console.log("Connexió correcta.");
+            console.log("Connexió correcta");
             var db = client.db('GP1');
-            db.collection('proves').findOne({ nom: reqUrl.searchParams.get('nom') }).then(result => {
-                if (result) {
-                    console.log('Iniciant sessió...');
-                    idUsuari = result._id;
-                    console.log(idUsuari);
-                } else {
-                    db.collection('proves').insertOne({
-                        "nom": reqUrl.searchParams.get('nom'),
-                        "password": reqUrl.searchParams.get('password')
-                    }).then(result => {
-                        idUsuari = result.insertedId;
-                        console.log('Usuari creat amb ID ' + idUsuari);
-                    })
-                }
-            }).then(() => {                 
+            db.collection('proves').findOne({ nom: reqUrl.searchParams.get('nom') })
+                .then(result => {
+                    if (result) {
+                        console.log('Iniciant sessió...');
+                        idUsuari = result._id;
+                        console.log(result._id);
+                    } else {
+                        db.collection('proves').insertOne({
+                            "nom": reqUrl.searchParams.get('nom'),
+                            "password": reqUrl.searchParams.get('password')
+                        }).then(result => {
+                            idUsuari = result.insertedId;
+                            console.log('Usuari creat amb ID ' + idUsuari);
+                        });                        
+                    }
+                });
                 res.setHeader('Set-Cookie', cookie.serialize('id', idUsuari, {
-                    httpOnly: false,
+                    httpOnly: true,
                     maxAge: 60 * 15 // 15 minuts
                 }));
-                res.statusCode = 301;
+                res.statusCode = 302;
                 res.setHeader('Location', '/calendari');
                 res.end();
-            });
-        })
+        });
         //     db.collection('proves').insertOne({
         //         "nom": reqUrl.searchParams.get('nom'),
         //         "password": reqUrl.searchParams.get('password')
@@ -125,11 +125,11 @@ function onRequest(req, res) {
         //     console.log("Afegit document a col·lecció proves");
 
         // });
+
     }
 
     else if (ruta == '/calendari') {
         let cookies = cookie.parse(req.headers.cookie || '');
-        console.log(cookies);
         let name = cookies.id;
         if (name) {
             console.log('Benvingut ' + name);
