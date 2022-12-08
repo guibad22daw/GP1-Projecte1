@@ -96,6 +96,7 @@ function onRequest(req, res) {
                         console.log('Iniciant sessió...');
                         idUsuari = result._id;
                         console.log(result._id);
+                        fPosaCookie(idUsuari);
                     } else {
                         db.collection('proves').insertOne({
                             "nom": reqUrl.searchParams.get('nom'),
@@ -103,29 +104,11 @@ function onRequest(req, res) {
                         }).then(result => {
                             idUsuari = result.insertedId;
                             console.log('Usuari creat amb ID ' + idUsuari);
+                            fPosaCookie(idUsuari);
                         });                        
                     }
                 });
-                res.setHeader('Set-Cookie', cookie.serialize('id', idUsuari, {
-                    httpOnly: true,
-                    maxAge: 60 * 15 // 15 minuts
-                }));
-                res.statusCode = 302;
-                res.setHeader('Location', '/calendari');
-                res.end();
         });
-        //     db.collection('proves').insertOne({
-        //         "nom": reqUrl.searchParams.get('nom'),
-        //         "password": reqUrl.searchParams.get('password')
-        //     }).then(result => {
-        //         idUsuari = result.insertedId;
-        //         console.log(idUsuari);
-        //     });
-        //     assert.equal(err, null);
-        //     console.log("Afegit document a col·lecció proves");
-
-        // });
-
     }
 
     else if (ruta == '/calendari') {
@@ -215,6 +198,16 @@ function onRequest(req, res) {
         sortida = "404 NOT FOUND";
         res.write(sortida);
         res.end();
+    }
+
+    function fPosaCookie(idUsuari) {
+        res.setHeader('Set-Cookie', cookie.serialize('id', idUsuari, {
+            httpOnly: true,
+            maxAge: 60 * 15 // 15 minuts
+        }));
+        res.statusCode = 302;
+        res.setHeader('Location', '/calendari');
+        res.end();   
     }
 }
 
