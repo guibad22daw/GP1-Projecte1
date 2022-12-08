@@ -88,12 +88,12 @@ function onRequest(request, response) {
             assert.equal(null, err);
             console.log("Connexió correcta");
             var db = client.db('GP1');
-            let usuari = {
+            db.collection('proves').insertOne({
                 "nom": reqUrl.searchParams.get('nom'),
                 "password": reqUrl.searchParams.get('password')
-            };
-            db.collection('proves').insertOne({usuari}).then(result => {
+            }).then(result => {
                 console.log(result.insertedId);
+                var idUsuari = result.insertedId
              });
             assert.equal(err, null);
             console.log("Afegit document a col·lecció proves");
