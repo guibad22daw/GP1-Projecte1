@@ -68,11 +68,11 @@ button {
 }
 
 .day:hover {
-  background-color: #e8faed;
+  background-color: /*#e8faed*/ #ffe8cd;
 }
 
 .day+#currentDay {
-  background-color: #e8f4fa;
+  background-color: /*#e8f4fa*/ #ffe8cd;
 }
 
 .event {

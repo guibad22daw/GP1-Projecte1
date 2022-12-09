@@ -12,7 +12,7 @@ body {
         padding: 0;
         margin-left: 100px;
         margin-right: 100px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 20px 15px -15px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 15px 15px -15px;
     }
 
     /* Dimensiones para el menú de navegación */

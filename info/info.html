@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +13,31 @@
 
     <!-- Enllaç a document JavaScript -->
     <script src="info.js"></script>
+    <script src="estils.js"></script>
 </head>
+
 <body> 
-    <video id="video" autoplay controls oncanplay="iniciVideo()" autobuffer="true" width="750px"
-        height="421px">
+
+    <!-- Header y menú de navegación de la página -->
+    <div class="menu-header">
+        <nav>
+            <a href="calendari" class="logo">
+            <canvas id="logo" width="90" height="80"></canvas>
+            </a>
+            <ul>
+                <li><a class="menu-options" href="calendari">CALENDARI</a></li>
+                <li><a class="menu-options" href="informacio">INFORMACIÓ</a></li>
+                <li><a class="menu-options" href="#">SERVEIS</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contingut de la pàgina -->
+    <br><br><br>
+    <video id="video" autoplay controls oncanplay="iniciVideo()" autobuffer="true" width="750px" height="421px">
         <source src="banc_temps.mp4" type="video/mp4" />
-      </video>
+    </video>
+
 </body>
+
 </html>
