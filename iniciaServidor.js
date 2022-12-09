@@ -21,12 +21,12 @@ function onRequest(req, res) {
     const ruta = reqUrl.pathname;
     let cadenaConnexio = 'mongodb://127.0.0.1:27017/GP1';
 
+    // LOGIN
     if (ruta == '/') {
         res.writeHead(301, {
             Location: `/login`
         }).end();
     }
-
     else if (ruta == '/login') {
         fs.readFile('./login/login.html', function (err, sortida) {
             res.writeHead(200, {
@@ -64,6 +64,7 @@ function onRequest(req, res) {
         });
     }
 
+    // CALENDARI 
     else if (ruta == '/calendari.css') {
         fs.readFile('./calendari/calendari.css', function (err, sortida) {
             res.writeHead(200, {
@@ -73,7 +74,6 @@ function onRequest(req, res) {
             res.end();
         });
     }
-
     else if (ruta == '/calendari.js') {
         fs.readFile('./calendari/calendari.js', function (err, sortida) {
             res.writeHead(200, {
@@ -83,8 +83,6 @@ function onRequest(req, res) {
             res.end();
         });
     }
-
-
     else if (ruta == '/desa') {
         MongoClient.connect(cadenaConnexio, function (err, client) {
             assert.equal(null, err);
@@ -110,7 +108,6 @@ function onRequest(req, res) {
                 });
         });
     }
-
     else if (ruta == '/calendari') {
         let cookies = cookie.parse(req.headers.cookie || '');
         let name = cookies.id;
@@ -128,6 +125,7 @@ function onRequest(req, res) {
         });
     }
 
+    // CONSULTA
     else if (ruta == '/consulta') {
         MongoClient.connect(cadenaConnexio, function (err, client) {
             assert.equal(null, err);
@@ -185,12 +183,42 @@ function onRequest(req, res) {
     else if (ruta == '/info.js') {
         fs.readFile('./info/info.js', function (err, sortida) {
             res.writeHead(200, {
-                "Content-Type": "text/js; charset=utf-8"
+                "Content-Type": "text/javascript; charset=utf-8"
             });
             res.write(sortida);
             res.end();
         });
     }
+
+    // ESTILS
+    else if (ruta == '/estils.css') {
+        fs.readFile('./estils/estils.css', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "text/css; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/estils.js') {
+        fs.readFile('./estils/estils.js', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "text/javascript; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/logo2.png') {
+        fs.readFile('./estils/logo2.png', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/png; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+
     else {
         res.writeHead(404, {
             "Content-Type": "text/html; charset=utf-8"

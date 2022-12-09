@@ -5,47 +5,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendari</title>
+
+  <!-- Enllaços a documents CSS -->
   <link rel="stylesheet" href="calendari.css">
+  <link rel="stylesheet" href="estils.css">
+
+  <!-- Enllaç a document JavaScript -->
+  <script src="estils.js"></script>
 </head>
 
 <body>
-  <div id="container">
-    <div id="header">
-      <div id="monthDisplay"></div>
+
+  <!-- Header y menú de navegación de la página -->
+  <div class="menu-header">
+    <nav>
+        <a href="calendari" class="logo">
+          <canvas id="logo" width="90" height="80"></canvas>
+        </a>
+        <ul>
+            <li><a class="menu-options" href="calendari">CALENDARI</a></li>
+            <li><a class="menu-options" href="informacio">INFORMACIÓ</a></li>
+            <li><a class="menu-options" href="#">SERVEIS</a></li>
+        </ul>
+    </nav>
+  </div>
+
+  <!-- Contingut de la pàgina -->
+  <div class="contenedor-flex">
+    <div id="container">
+      <div id="header">
+        <div id="monthDisplay"></div>
+      </div>
+
+      <div id="weekdays">
+        <div>Dilluns</div>
+        <div>Dimarts</div>
+        <div>Dimecres</div>
+        <div>Dijous</div>
+        <div>Divendres</div>
+        <div>Dissabte</div>
+        <div>Diumenge</div>
+      </div>
+
+      <div id="calendar"></div>
     </div>
 
-    <div id="weekdays">
-      <div>Dilluns</div>
-      <div>Dimarts</div>
-      <div>Dimecres</div>
-      <div>Dijous</div>
-      <div>Divendres</div>
-      <div>Dissabte</div>
-      <div>Diumenge</div>
+    <div id="newEventModal">
+      <h2>Nou esdeveniment</h2>
+
+      <input id="eventTitleInput" placeholder="Descripció de l'esdeveniment" />
+
+      <button id="saveButton">Guardar</button>
+      <button id="cancelButton">Cancel·lar</button>
     </div>
 
-    <div id="calendar"></div>
+    <div id="deleteEventModal">
+      <h2>Esdeveniment</h2>
+
+      <p id="eventText"></p>
+
+      <button id="deleteButton">Esborrar</button>
+      <button id="closeButton">Tancar</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
   </div>
-
-  <div id="newEventModal">
-    <h2>Nou esdeveniment</h2>
-
-    <input id="eventTitleInput" placeholder="Descripció de l'esdeveniment" />
-
-    <button id="saveButton">Guardar</button>
-    <button id="cancelButton">Cancel·lar</button>
-  </div>
-
-  <div id="deleteEventModal">
-    <h2>Esdeveniment</h2>
-
-    <p id="eventText"></p>
-
-    <button id="deleteButton">Esborrar</button>
-    <button id="closeButton">Tancar</button>
-  </div>
-
-  <div id="modalBackDrop"></div>
 
   <script src="./calendari.js"></script>
 </body>
