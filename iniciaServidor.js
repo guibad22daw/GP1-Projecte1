@@ -125,33 +125,6 @@ function onRequest(req, res) {
         });
     }
 
-    // CONSULTA
-    else if (ruta == '/consulta') {
-        MongoClient.connect(cadenaConnexio, function (err, client) {
-            assert.equal(null, err);
-            console.log("Connexió correcta");
-            var db = client.db('GP1');
-
-            res.writeHead(200, {
-                "Content-Type": "text/html; charset=utf-8"
-            });
-            console.log("consulta document a col·lecció usuaris");
-
-            let cursor = db.collection('proves').find({});
-
-            cursor.toArray((function (err, results) {
-                assert.equal(err, null);
-                if (results != null) {
-                    results.forEach((doc) => {
-                        res.write(`usuari: ${doc.nom} | password: ${doc.password} <br>`);
-                    });
-                } else {
-                    res.end();
-                }
-            }));
-        });
-    }
-
     // INFO
     else if (ruta == '/informacio') {
         fs.readFile('./info/info.html', function (err, sortida) {
@@ -190,6 +163,26 @@ function onRequest(req, res) {
         });
     }
 
+    // SERVEIS
+    else if (ruta == '/serveis') {
+        fs.readFile('./serveis/serveis.html', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "text/html; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/serveis.css') {
+        fs.readFile('./serveis/serveis.css', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "text/css; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+
     // ESTILS
     else if (ruta == '/estils.css') {
         fs.readFile('./estils/estils.css', function (err, sortida) {
@@ -216,6 +209,33 @@ function onRequest(req, res) {
             });
             res.write(sortida);
             res.end();
+        });
+    }
+
+    // CONSULTA
+    else if (ruta == '/consulta') {
+        MongoClient.connect(cadenaConnexio, function (err, client) {
+            assert.equal(null, err);
+            console.log("Connexió correcta");
+            var db = client.db('GP1');
+
+            res.writeHead(200, {
+                "Content-Type": "text/html; charset=utf-8"
+            });
+            console.log("consulta document a col·lecció usuaris");
+
+            let cursor = db.collection('proves').find({});
+
+            cursor.toArray((function (err, results) {
+                assert.equal(err, null);
+                if (results != null) {
+                    results.forEach((doc) => {
+                        res.write(`usuari: ${doc.nom} | password: ${doc.password} <br>`);
+                    });
+                } else {
+                    res.end();
+                }
+            }));
         });
     }
 
