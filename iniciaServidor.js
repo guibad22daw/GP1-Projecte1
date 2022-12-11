@@ -124,6 +124,15 @@ function onRequest(req, res) {
             res.end();
         });
     }
+    else if (ruta == '/calendari.png') {
+        fs.readFile('./calendari/calendari.png', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/png; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
 
     // INFO
     else if (ruta == '/informacio') {
