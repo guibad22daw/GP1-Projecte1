@@ -6,7 +6,7 @@ body {
 ******************************************* MENU DE NAVEGACIÓN *******************************************/
     /* Dimensiones para el icono del menú que cuando seleccionas te despliega el menú */
     .menu-header {
-        font-family: sans-serif;
+        font-family:  'Segoe UI';
         font-weight: bold;
         margin: 0;
         padding: 0;
@@ -18,7 +18,7 @@ body {
     /* Dimensiones para el menú de navegación */
     nav {
         background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-        height: 80px;
+        height: 65px;
         width: 100%;
         border-radius: 20px;
     }
@@ -42,7 +42,7 @@ body {
     
     nav ul li {
         display: inline-block;
-        margin: 32px 5px 0px 5px;
+        margin: 20px 5px 0px 5px;
         /* Border y padding pasan a formar parte del width con border-box */
         box-sizing: border-box;
         position: relative;

@@ -6,7 +6,7 @@ window.onload = function () {
         imatge = new Image();
         imatge.src = 'logo2.png';
         imatge.onload = function () {
-            ctx.drawImage(imatge, 0, 10, 90, 63);
+            ctx.drawImage(imatge, 0, 5, 80, 53);
         }
     }
 }

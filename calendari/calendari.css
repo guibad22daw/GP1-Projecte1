@@ -32,7 +32,7 @@ button {
   padding: 10px;
   color: #d36c6c;
   font-size: 26px;
-  font-family: sans-serif;
+  font-family:  'Segoe UI';
   font-weight: bold;
   display: flex;
   justify-content: space-between;
@@ -50,11 +50,12 @@ button {
   width: 100%;
   display: flex;
   color: white;
-  font-family: sans-serif;
-  font-weight: 500;
+  font-family:  'Segoe UI';
+  font-weight: 600;
   background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
   opacity: 0.7;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 #weekdays div {
@@ -73,6 +74,7 @@ button {
   width: 100px;
   padding: 10px;
   height: 100px;
+  border-radius: 10px;
   cursor: pointer;
   box-sizing: border-box;
   background-color: white;
@@ -81,6 +83,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-family:  'Segoe UI';
 }
 
 .day:hover {
