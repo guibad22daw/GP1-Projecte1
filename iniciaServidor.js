@@ -6,13 +6,6 @@ var idUsuari;
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert'); //utilitzem assercions
 
-let ObjectId = require('mongodb').ObjectID;
-
-let crud = {
-    afegirDocument: function (alumne, db, err, callback) {
-    }
-};
-
 function onRequest(req, res) {
     let sortida;
     const baseURL = req.protocol + '://' + req.headers.host + '/';
@@ -259,7 +252,7 @@ function onRequest(req, res) {
 
     function fPosaCookie(idUsuari) {
         res.setHeader('Set-Cookie', cookie.serialize('id', idUsuari, {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 60 * 15 // 15 minuts
         }));
         res.statusCode = 302;

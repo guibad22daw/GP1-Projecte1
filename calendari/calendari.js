@@ -1,5 +1,9 @@
 let nav = 0;
 let clicked = null;
+let existeix;
+// let dades = [];
+
+
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
 const calendar = document.getElementById('calendar');
@@ -7,7 +11,8 @@ const newEventModal = document.getElementById('newEventModal');
 const deleteEventModal = document.getElementById('deleteEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
-const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday',];
+const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday'];
+
 let comptador = 0;
 
 // let dades = [
@@ -30,6 +35,20 @@ let comptador = 0;
 // ]
 
 function openModal(date) {
+    // dades.id.forEach(function(id){
+    //     if( id == cookieActual){
+    //         existeix = true;
+    //     }else {
+    //         existeix = false;
+    //     }
+    // });
+    
+    // if (!existeix) {
+    //     dades.push({
+    //         id:cookieActual
+    //     });
+    // }
+    // console.log(cookieActual);
     clicked = date;
 
     const eventForDay = events.find(e => e.date === clicked);
@@ -45,7 +64,6 @@ function openModal(date) {
 }
 
 function load() {
-    console.log(document.cookie);  // sacamos la cookie del header
     const dt = new Date();
 
     if (nav !== 0) {
