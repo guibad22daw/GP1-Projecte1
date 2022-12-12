@@ -89,8 +89,12 @@ window.onload = function () {
                 }
 
                 if (eventForDay) {
-                    const eventDiv = document.createElement('div');
-                    eventDiv.classList.add('event');
+                    let eventDiv = document.createElement('div');
+                    if(document.getElementById('accio').checked == true) {
+                        eventDiv.classList.add('event');
+                    } else {
+                        eventDiv.classList.add('event2');
+                    }
                     eventDiv.innerText = eventForDay.title;
                     daySquare.appendChild(eventDiv);
                 }
