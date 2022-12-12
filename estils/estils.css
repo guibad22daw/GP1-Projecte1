@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
 body {
     background-color: #FFFCFF;
 }
@@ -6,7 +8,7 @@ body {
 ******************************************* MENU DE NAVEGACIÓN *******************************************/
     /* Dimensiones para el icono del menú que cuando seleccionas te despliega el menú */
     .menu-header {
-        font-family:  'Segoe UI';
+        font-family: 'Josefin Sans', sans-serif;
         font-weight: bold;
         margin: 0;
         padding: 0;
@@ -42,7 +44,7 @@ body {
     
     nav ul li {
         display: inline-block;
-        margin: 20px 5px 0px 5px;
+        margin: 23px 5px 0px 5px;
         /* Border y padding pasan a formar parte del width con border-box */
         box-sizing: border-box;
         position: relative;
