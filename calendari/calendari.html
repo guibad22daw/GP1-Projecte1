@@ -50,8 +50,23 @@
     <div id="newEventModal">
       <h2>Nou esdeveniment</h2>
 
-      <input id="eventTitleInput" placeholder="Descripció de l'esdeveniment" />
+      <!-- <input id="eventTitleInput" placeholder="Descripció de l'esdeveniment" /> -->
+      <p>Selecciona la activitat que vols oferir o rebre:</p>
+      <select id="eventTitleInput" name="serveis" style="padding: 10px; border-radius: 10px;">
+        <option value="futbol" selected>Fútbol</option>
+        <option value="basket">Basket</option>
+        <option value="tennis">Tennis</option>
+        <option value="escacs">Escacs</option>
+        <option value="angles">Anglès</option>
+        <option value="cuina">Cuina</option>
+      </select>
 
+      <p>Selecciona si vols oferir o rebre el servei:</p>
+      <input type="radio" id="contactChoice1" name="accio" value="rebre" checked/>
+      <label for="contactChoice1">Rebre servei</label><br>
+      <input type="radio" id="contactChoice2" name="accio" value="oferir"/>
+      <label for="contactChoice2">Oferir servei</label>
+      <br><br>
       <button id="saveButton">Guardar</button>
       <button id="cancelButton">Cancel·lar</button>
     </div>
