@@ -1,3 +1,5 @@
+const { ConnectionCheckedInEvent } = require("mongodb");
+
 let nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
@@ -9,6 +11,25 @@ const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday',];
 let comptador = 0;
+
+let dades = [
+    {
+        id:cookie,
+        eventos: [
+            {
+                data:''
+            }
+        ]
+    },
+    {
+        id:cookie,
+        eventos: [
+            {
+                data:''
+            }
+        ] 
+    }
+]
 
 function openModal(date) {
     clicked = date;
