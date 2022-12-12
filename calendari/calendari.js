@@ -1,5 +1,3 @@
-const { ConnectionCheckedInEvent } = require("mongodb");
-
 let nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
@@ -12,24 +10,24 @@ const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday',];
 let comptador = 0;
 
-let dades = [
-    {
-        id:cookie,
-        eventos: [
-            {
-                data:''
-            }
-        ]
-    },
-    {
-        id:cookie,
-        eventos: [
-            {
-                data:''
-            }
-        ] 
-    }
-]
+// let dades = [
+//     {
+//         id:cookie,
+//         eventos: [
+//             {
+//                 data:''
+//             }
+//         ]
+//     },
+//     {
+//         id:cookie,
+//         eventos: [
+//             {
+//                 data:''
+//             }
+//         ] 
+//     }
+// ]
 
 function openModal(date) {
     clicked = date;
@@ -47,6 +45,7 @@ function openModal(date) {
 }
 
 function load() {
+    console.log(document.cookie);  // sacamos la cookie del header
     const dt = new Date();
 
     if (nav !== 0) {
