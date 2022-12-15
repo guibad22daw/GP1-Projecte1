@@ -10,8 +10,12 @@ function onRequest(req, res) {
     let sortida;
     const baseURL = req.protocol + '://' + req.headers.host + '/';
     const reqUrl = new URL(req.url, baseURL);
-    console.log("Petició per a  " + reqUrl.pathname + " rebuda.");
     const ruta = reqUrl.pathname;
+    if (ruta.substring(ruta.length - 3) == 'png');
+    else {
+        console.log("Petició per a  " + ruta + " rebuda.");
+    }
+    
     let cadenaConnexio = 'mongodb://127.0.0.1:27017/GP1';
 
     // LOGIN
