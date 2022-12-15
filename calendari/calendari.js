@@ -34,6 +34,7 @@ window.onload = function () {
 
     function openModal(date) {
         clicked = date;
+        let n = 0;
 
         const eventForDay = events.find(e => e.date === clicked);
 
@@ -88,9 +89,11 @@ window.onload = function () {
                     daySquare.id = 'currentDay';
                 }
 
+                
                 if (eventForDay) {
                     const eventDiv = document.createElement('div');
                     eventDiv.classList.add('event');
+                    eventDiv.setAttribute('id', eventForDay.date);
                     eventDiv.innerText = eventForDay.title;
                     daySquare.appendChild(eventDiv);
                 }
