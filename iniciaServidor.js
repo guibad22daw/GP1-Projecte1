@@ -11,10 +11,7 @@ function onRequest(req, res) {
     const baseURL = req.protocol + '://' + req.headers.host + '/';
     const reqUrl = new URL(req.url, baseURL);
     const ruta = reqUrl.pathname;
-    if (ruta.substring(ruta.length - 3) == 'png');
-    else {
-        console.log("Petició per a  " + ruta + " rebuda.");
-    }
+    console.log("Petició per a  " + ruta + " rebuda.");
     
     let cadenaConnexio = 'mongodb://127.0.0.1:27017/GP1';
 
@@ -188,6 +185,73 @@ function onRequest(req, res) {
             res.end();
         });
     }
+    else if (ruta == '/futbol.png') {
+        fs.readFile('./serveis/futbol.png', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/png; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/basket.png') {
+        fs.readFile('./serveis/basket.png', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/png; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/tennis.png') {
+        fs.readFile('./serveis/tennis.png', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/png; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/escacs.jpg') {
+        fs.readFile('./serveis/escacs.jpg', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/jpg; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/escacs.jpg') {
+        fs.readFile('./serveis/escacs.jpg', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/jpg; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/angles.jpg') {
+        fs.readFile('./serveis/angles.jpg', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/jpg; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    else if (ruta == '/cuina.jpg') {
+        fs.readFile('./serveis/cuina.jpg', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "image/jpg; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+    
+    
+    
+    
 
     // ESTILS
     else if (ruta == '/estils.css') {
