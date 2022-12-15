@@ -1,4 +1,3 @@
-
 var canvas = document.getElementById('logo');
 if (canvas.getContext) {
 
