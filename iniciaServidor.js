@@ -22,6 +22,15 @@ function onRequest(req, res) {
         }).end();
     }
     else if (ruta == '/login') {
+        let cookies = cookie.parse(req.headers.cookie || '');
+        let idUsuari = cookies.id;
+        console.log(idUsuari);
+        if(idUsuari) {
+            res.setHeader('Set-Cookie', cookie.serialize('id',"", {     // Esborra qualsevol cookie existent per no generar conflictes
+                httpOnly: false,
+                maxAge: -1 
+            }));
+        }
         fs.readFile('./login/login.html', function (err, sortida) {
             res.writeHead(200, {
                 "Content-Type": "text/html; charset=utf-8"
@@ -221,15 +230,6 @@ function onRequest(req, res) {
             res.end();
         });
     }
-    else if (ruta == '/escacs.jpg') {
-        fs.readFile('./serveis/escacs.jpg', function (err, sortida) {
-            res.writeHead(200, {
-                "Content-Type": "image/jpg; charset=utf-8"
-            });
-            res.write(sortida);
-            res.end();
-        });
-    }
     else if (ruta == '/angles.jpg') {
         fs.readFile('./serveis/angles.jpg', function (err, sortida) {
             res.writeHead(200, {
@@ -248,9 +248,6 @@ function onRequest(req, res) {
             res.end();
         });
     }
-    
-    
-    
     
 
     // ESTILS
