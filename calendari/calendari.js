@@ -10,6 +10,7 @@ window.onload = function () {
     const eventTitleInput = document.getElementById('eventTitleInput');
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',];
     let comptador = 0;
+    const idUsuari = document.cookie.slice(3);
 
     // let dades = [
     //     {
@@ -34,7 +35,6 @@ window.onload = function () {
 
     function openModal(date) {
         clicked = date;
-        let n = 0;
 
         const eventForDay = events.find(e => e.date === clicked);
 
@@ -83,7 +83,7 @@ window.onload = function () {
 
             if (i > paddingDays) {
                 daySquare.innerText = i - paddingDays;
-                const eventForDay = events.find(e => e.date === dayString);
+                const eventForDay = events.find(e => e.id == idUsuari && e.date == dayString);
 
                 if (i - paddingDays === day && nav === 0) {
                     daySquare.id = 'currentDay';
@@ -125,6 +125,7 @@ window.onload = function () {
             eventTitleInput.classList.remove('error');
 
             events.push({
+                id: idUsuari,
                 date: clicked,
                 title: eventTitleInput.value,
             });
