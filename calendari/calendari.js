@@ -12,31 +12,10 @@ window.onload = function () {
     let comptador = 0;
     const idUsuari = document.cookie.slice(3);
 
-    // let dades = [
-    //     {
-    //         id:cookie,
-    //         eventos: [
-    //             {
-    //                 data:''
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         id:cookie,
-    //         eventos: [
-    //             {
-    //                 data:''
-    //             }
-    //         ] 
-    //     }
-    // ]
-
-
-
     function openModal(date) {
         clicked = date;
 
-        const eventForDay = events.find(e => e.date === clicked);
+        const eventForDay = events.find(e => e.date === clicked && e.id == idUsuari);
 
         if (eventForDay) {
             document.getElementById('eventText').innerText = eventForDay.title;
