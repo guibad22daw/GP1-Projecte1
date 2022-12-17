@@ -117,7 +117,7 @@ window.onload = function () {
     }
 
     function deleteEvent() {
-        events = events.filter(e => e.date !== clicked);
+        events = events.filter(e => e.id !== idUsuari );
         localStorage.setItem('events', JSON.stringify(events));
         closeModal();
     }
