@@ -2,6 +2,7 @@ let http = require("http");
 let fs = require('fs');
 var cookie = require('cookie');
 var idUsuari;
+var username;
 
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert'); //utilitzem assercions
@@ -22,15 +23,7 @@ function onRequest(req, res) {
         }).end();
     }
     else if (ruta == '/login') {
-        let cookies = cookie.parse(req.headers.cookie || '');
-        let idUsuari = cookies.id;
-        console.log(idUsuari);
-        if(idUsuari) {
-            res.setHeader('Set-Cookie', cookie.serialize('id',"", {     // Esborra qualsevol cookie existent per no generar conflictes
-                httpOnly: false,
-                maxAge: -1 
-            }));
-        }
+        res.setHeader('Set-Cookie', ['id=; Max-Age=0', 'user=; Max-Age=0']);    // Esborrem les cookies existents
         fs.readFile('./login/login.html', function (err, sortida) {
             res.writeHead(200, {
                 "Content-Type": "text/html; charset=utf-8"
@@ -96,16 +89,18 @@ function onRequest(req, res) {
                     if (result) {
                         console.log('Iniciant sessió...');
                         idUsuari = result._id;
+                        username = reqUrl.searchParams.get('nom');
                         console.log(result._id);
-                        fPosaCookie(idUsuari);
+                        fPosaCookie(idUsuari,username);
                     } else {
                         db.collection('proves').insertOne({
                             "nom": reqUrl.searchParams.get('nom'),
                             "password": reqUrl.searchParams.get('password')
                         }).then(result => {
                             idUsuari = result.insertedId;
+                            username = reqUrl.searchParams.get('nom');
                             console.log('Usuari creat amb ID ' + idUsuari);
-                            fPosaCookie(idUsuari);
+                            fPosaCookie(idUsuari,username);
                         });                        
                     }
                 });
@@ -315,14 +310,20 @@ function onRequest(req, res) {
         res.end();
     }
 
-    function fPosaCookie(idUsuari) {
-        res.setHeader('Set-Cookie', cookie.serialize('id', idUsuari, {
+    function fPosaCookie(idUsuari,username) {
+        let cookies = [
+            `id=${idUsuari}`,
+            `user=${username}`
+        ];
+        console.log(cookies);
+        res.setHeader('Set-Cookie', cookies, {
             httpOnly: false,
             maxAge: 60 * 15 // 15 minuts
-        }));
+        });
         res.statusCode = 302;
         res.setHeader('Location', '/calendari');
         res.end();   
+
     }
 }
 

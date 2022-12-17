@@ -10,12 +10,25 @@ window.onload = function () {
     const eventTitleInput = document.getElementById('eventTitleInput');
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',];
     let comptador = 0;
-    const idUsuari = document.cookie.slice(3);
+    let eventForDay;
+    
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    const username = getCookie('user');
+    const idUsuari = getCookie('id');
 
     function openModal(date) {
         clicked = date;
 
-        const eventForDay = events.find(e => e.date === clicked && e.id == idUsuari);
+        if (username == 'admin') {
+            eventForDay = events.find(e => e.date === clicked);
+        } else {
+            eventForDay = events.find(e => e.date === clicked && e.id == idUsuari);
+        }
 
         if (eventForDay) {
             document.getElementById('eventText').innerText = eventForDay.title;
@@ -28,7 +41,9 @@ window.onload = function () {
     }
 
     function load() {
-        console.log(document.cookie);  // sacamos la cookie del header
+        console.log(idUsuari);  
+        console.log(username); 
+
         const dt = new Date();
 
         if (nav !== 0) {
@@ -62,7 +77,12 @@ window.onload = function () {
 
             if (i > paddingDays) {
                 daySquare.innerText = i - paddingDays;
-                const eventForDay = events.find(e => e.id == idUsuari && e.date == dayString);
+
+                if(username == 'admin'){
+                    eventForDay = events.find(e => e.date == dayString);
+                } else {
+                    eventForDay = events.find(e => e.id == idUsuari && e.date == dayString);
+                }
 
                 if (i - paddingDays === day && nav === 0) {
                     daySquare.id = 'currentDay';
@@ -105,6 +125,7 @@ window.onload = function () {
 
             events.push({
                 id: idUsuari,
+                user: username,
                 date: clicked,
                 title: eventTitleInput.value,
             });
@@ -117,7 +138,10 @@ window.onload = function () {
     }
 
     function deleteEvent() {
-        events = events.filter(e => e.id !== idUsuari );
+        console.log(events)
+        if (username == 'admin') events = events.filter(e => e.date !== clicked);
+        else events = events.filter(e => e.date !== clicked && e.id == idUsuari);
+        events = events.filter(e => e.date !== clicked && e.id == idUsuari);
         localStorage.setItem('events', JSON.stringify(events));
         closeModal();
     }
