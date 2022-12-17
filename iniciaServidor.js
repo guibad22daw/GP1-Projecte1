@@ -87,11 +87,18 @@ function onRequest(req, res) {
             db.collection('proves').findOne({ nom: reqUrl.searchParams.get('nom') })
                 .then(result => {
                     if (result) {
-                        console.log('Iniciant sessió...');
-                        idUsuari = result._id;
-                        username = reqUrl.searchParams.get('nom');
-                        console.log(result._id);
-                        fPosaCookie(idUsuari,username);
+                        if (reqUrl.searchParams.get('password') == result.password) {
+                            idUsuari = result._id;
+                            username = reqUrl.searchParams.get('nom');
+                            fPosaCookie(idUsuari,username);
+                            console.log('Iniciant sessió...');
+                        } else {
+                            console.log('Contrasenya incorrecta.');
+                            res.writeHead(301, {
+                                Location: `/error`
+                            }).end();
+                        }
+
                     } else {
                         db.collection('proves').insertOne({
                             "nom": reqUrl.searchParams.get('nom'),
@@ -106,6 +113,17 @@ function onRequest(req, res) {
                 });
         });
     }
+
+    else if (ruta == '/error') {
+        fs.readFile('./error_inici_sessio.html', function (err, sortida) {
+            res.writeHead(200, {
+                "Content-Type": "text/html; charset=utf-8"
+            });
+            res.write(sortida);
+            res.end();
+        });
+    }
+
     else if (ruta == '/calendari') {
         let cookies = cookie.parse(req.headers.cookie || '');
         let name = cookies.id;
