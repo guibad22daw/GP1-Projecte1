@@ -157,7 +157,8 @@ button {
   background-color: #ff5c5c;
   width: 48%;
   height: 40px;
-  border-radius: 13px;
+  border-radius: 15px;
+  transition: 1s;
 }
 
   #cancelButton:hover, #deleteButton:hover {
@@ -170,7 +171,8 @@ button {
   background-color: #4c8eff;
   width: 48%;
   height: 40px;
-  border-radius: 13px;
+  border-radius: 15px;
+  transition: 1s;
 }
 
   #saveButton:hover, #closeButton:hover {
