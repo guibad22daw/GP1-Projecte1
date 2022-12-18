@@ -1,19 +1,21 @@
 let http = require("http");
 let fs = require('fs');
 var cookie = require('cookie');
+const crypto = require('crypto');
+const salt = crypto.randomBytes(16).toString('hex');
 var idUsuari;
 var username;
 
 let MongoClient = require('mongodb').MongoClient;
-let assert = require('assert'); //utilitzem assercions
+let assert = require('assert');     //utilitzem assercions
+
 
 function onRequest(req, res) {
     let sortida;
     const baseURL = req.protocol + '://' + req.headers.host + '/';
     const reqUrl = new URL(req.url, baseURL);
     const ruta = reqUrl.pathname;
-    console.log("Petició per a  " + ruta + " rebuda.");
-    
+    if (!ruta.includes(".")) console.log("Petició per a  " + ruta + " rebuda.");     // Mostra només les peticions a rutes i no als arxius.
     let cadenaConnexio = 'mongodb://127.0.0.1:27017/GP1';
 
     // LOGIN
@@ -70,6 +72,7 @@ function onRequest(req, res) {
             res.end();
         });
     }
+
     else if (ruta == '/calendari.js') {
         fs.readFile('./calendari/calendari.js', function (err, sortida) {
             res.writeHead(200, {
@@ -79,39 +82,11 @@ function onRequest(req, res) {
             res.end();
         });
     }
-    else if (ruta == '/desa') {
-        MongoClient.connect(cadenaConnexio, function (err, client) {
-            assert.equal(null, err);
-            console.log("Connexió correcta");
-            var db = client.db('GP1');
-            db.collection('proves').findOne({ nom: reqUrl.searchParams.get('nom') })
-                .then(result => {
-                    if (result) {
-                        if (reqUrl.searchParams.get('password') == result.password) {
-                            idUsuari = result._id;
-                            username = reqUrl.searchParams.get('nom');
-                            fPosaCookie(idUsuari,username);
-                            console.log('Iniciant sessió...');
-                        } else {
-                            console.log('Contrasenya incorrecta.');
-                            res.writeHead(301, {
-                                Location: `/error`
-                            }).end();
-                        }
 
-                    } else {
-                        db.collection('proves').insertOne({
-                            "nom": reqUrl.searchParams.get('nom'),
-                            "password": reqUrl.searchParams.get('password')
-                        }).then(result => {
-                            idUsuari = result.insertedId;
-                            username = reqUrl.searchParams.get('nom');
-                            console.log('Usuari creat amb ID ' + idUsuari);
-                            fPosaCookie(idUsuari,username);
-                        });                        
-                    }
-                });
-        });
+    else if (ruta == '/desa') {
+        let username = reqUrl.searchParams.get('nom');
+        let password = reqUrl.searchParams.get('password');
+        login(username, password);
     }
 
     else if (ruta == '/error') {
@@ -126,9 +101,10 @@ function onRequest(req, res) {
 
     else if (ruta == '/calendari') {
         let cookies = cookie.parse(req.headers.cookie || '');
-        let name = cookies.id;
-        if (name) {
-            console.log('Benvingut ' + name);
+        let usuari = cookies.user;
+        let id = cookies.id;
+        if (usuari) {
+            console.log('Benvingut usuari \"' + usuari + '\" amb ID ' + id) + '.';
         } else {
             console.log('Error llegint cookie.');
         }
@@ -261,7 +237,7 @@ function onRequest(req, res) {
             res.end();
         });
     }
-    
+
 
     // ESTILS
     else if (ruta == '/estils.css') {
@@ -328,7 +304,53 @@ function onRequest(req, res) {
         res.end();
     }
 
-    function fPosaCookie(idUsuari,username) {
+    function hashPassword(password) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
+
+        return [salt, hash].join('$');
+    }
+
+    async function login(username, password) {
+        const client = new MongoClient('mongodb://127.0.0.1:27017/');
+        try {
+            await client.connect();
+            const db = client.db('GP1');
+            const user = await db.collection('proves').findOne({ user: username });
+            if (user) {
+                const [salt, hashedPassword] = user.password.split('$');
+                const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
+                if (hash === hashedPassword) {
+                    console.log('Iniciant sessió...');
+                    fPosaCookie(user._id, username);
+                }
+            } else {
+                createUser(username, password);
+            }
+        } catch (err) {
+            console.log(err);
+        } finally {
+            client.close();
+        }
+    }
+
+    async function createUser(username, password) {
+        const hashedPassword = hashPassword(password);
+        const client = new MongoClient('mongodb://127.0.0.1:27017/');
+        try {
+            await client.connect();
+            const db = client.db('GP1');
+            const result = await db.collection('proves').insertOne({ user: username, password: hashedPassword });
+            console.log('Nou usuari creat.');
+            fPosaCookie(result.insertedId, username);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            client.close();
+        }
+    }
+
+    function fPosaCookie(idUsuari, username) {
         let cookies = [
             `id=${idUsuari}`,
             `user=${username}`
@@ -340,7 +362,7 @@ function onRequest(req, res) {
         });
         res.statusCode = 302;
         res.setHeader('Location', '/calendari');
-        res.end();   
+        res.end();
 
     }
 }
