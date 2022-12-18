@@ -323,6 +323,11 @@ function onRequest(req, res) {
                 if (hash === hashedPassword) {
                     console.log('Iniciant sessió...');
                     fPosaCookie(user._id, username);
+                } else {
+                    console.log('Contrasenya incorrecta.');
+                    res.writeHead(301, {
+                        Location: `/error`
+                    }).end();
                 }
             } else {
                 createUser(username, password);
