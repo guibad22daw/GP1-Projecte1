@@ -6,6 +6,7 @@ const crypto = require('crypto');
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert');     //utilitzem assercions
 
+createAdmin();      // Crea l'usuari administrador en cas que no existeixi quan s'inicia el servidor.
 
 function onRequest(req, res) {
     let sortida;
@@ -301,13 +302,6 @@ function onRequest(req, res) {
         res.end();
     }
 
-    function hashPassword(password) {
-        const salt = crypto.randomBytes(16).toString('hex');
-        const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
-
-        return [salt, hash].join('$');
-    }
-
     async function login(username, password) {
         const client = new MongoClient('mongodb://127.0.0.1:27017/');
         try {
@@ -366,6 +360,35 @@ function onRequest(req, res) {
         res.setHeader('Location', '/calendari');
         res.end();
 
+    }
+}
+
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
+
+    return [salt, hash].join('$');
+}
+
+async function createAdmin() {      
+    const admin = 'admin';
+    const password = '12345678Ab_'
+    const hashedPassword = hashPassword(password);
+    const client = new MongoClient('mongodb://127.0.0.1:27017/');
+    try {
+        await client.connect();
+        const db = client.db('GP1');
+        const user = await db.collection('proves').findOne({ user: admin });
+        if (user) {
+            return 0;
+        } else {
+            const result = await db.collection('proves').insertOne({ user: admin, password: hashedPassword });
+            console.log('Usuari administrador creat.');
+        }
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
     }
 }
 
