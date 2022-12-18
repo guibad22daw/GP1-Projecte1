@@ -41,9 +41,6 @@ window.onload = function () {
     }
 
     function load() {
-        console.log(idUsuari);  
-        console.log(username); 
-
         const dt = new Date();
 
         if (nav !== 0) {
@@ -79,9 +76,9 @@ window.onload = function () {
                 daySquare.innerText = i - paddingDays;
 
                 if(username == 'admin'){
-                    eventForDay = events.find(e => e.date == dayString);
+                    eventForDay = events.find(event => event.date == dayString);
                 } else {
-                    eventForDay = events.find(e => e.id == idUsuari && e.date == dayString);
+                    eventForDay = events.find(event => event.id == idUsuari && event.date == dayString);
                 }
 
                 if (i - paddingDays === day && nav === 0) {
@@ -138,11 +135,16 @@ window.onload = function () {
     }
 
     function deleteEvent() {
-        console.log(events)
-        if (username == 'admin') events = events.filter(e => e.date !== clicked);
-        else events = events.filter(e => e.date !== clicked && e.id == idUsuari);
-        events = events.filter(e => e.date !== clicked && e.id == idUsuari);
+        console.log(events);
+        if (username == 'admin') { events = events.filter(event => event.date !== clicked); }
+        else {
+            const index = events.findIndex(event => event.user === username && event.date === clicked);
+            if (index !== -1) {
+                events.splice(index, 1);
+            }
+        }
         localStorage.setItem('events', JSON.stringify(events));
+        console.log(events);
         closeModal();
     }
 

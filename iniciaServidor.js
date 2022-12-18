@@ -2,9 +2,6 @@ let http = require("http");
 let fs = require('fs');
 var cookie = require('cookie');
 const crypto = require('crypto');
-const salt = crypto.randomBytes(16).toString('hex');
-var idUsuari;
-var username;
 
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert');     //utilitzem assercions
