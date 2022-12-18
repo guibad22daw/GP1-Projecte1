@@ -9,7 +9,6 @@ window.onload = function () {
     const backDrop = document.getElementById('modalBackDrop');
     const eventTitleInput = document.getElementById('eventTitleInput');
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',];
-    let comptador = 0;
     let eventForDay;
     
     function getCookie(name) {
@@ -70,7 +69,7 @@ window.onload = function () {
             const daySquare = document.createElement('div');
             daySquare.classList.add('day');
 
-            const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+            const dayString = `${i - paddingDays}/${month + 1}/${year}`;
 
             if (i > paddingDays) {
                 daySquare.innerText = i - paddingDays;
@@ -95,11 +94,8 @@ window.onload = function () {
                 }
 
                 daySquare.addEventListener('click', () => openModal(dayString));
-                daySquare.id = i - comptador;
             } else {
                 daySquare.classList.add('padding');
-                comptador += 1;
-
             }
 
             calendar.appendChild(daySquare);
