@@ -8,15 +8,13 @@ body {
 
 .contenedor-flex {
   display: flex;
-  margin-top: 50px;
+  margin-top: 0.2%;
   justify-content: center;
 }
 
 #container {
-  border: 1px solid;
   border-radius: 15px;
   padding: 30px 60px 30px 60px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 15px 25px, rgba(0, 0, 0, 0.15) 0px 5px 10px;
 }
 
 button {
