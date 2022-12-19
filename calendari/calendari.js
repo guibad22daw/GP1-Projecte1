@@ -88,8 +88,12 @@ window.onload = function () {
                 if (eventForDay) {
                     const eventDiv = document.createElement('div');
                     eventDiv.classList.add('event');
-                    eventDiv.setAttribute('id', eventForDay.date);
+                    
+
                     eventDiv.innerText = eventForDay.title;
+                    if (eventDiv.innerText.includes('Rebre')){
+                        eventDiv.setAttribute('id', 'rebre');
+                    }
                     daySquare.appendChild(eventDiv);
                 }
 
