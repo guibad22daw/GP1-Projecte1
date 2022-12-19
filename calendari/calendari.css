@@ -192,3 +192,19 @@ button {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+.logout {
+  text-decoration:none;
+  color: white;
+  width: 110px;
+  background-color: #ff5c5c;
+  padding: 13px 17px 13px 17px;
+  border-radius: 20px;
+  font-family: 'Josefin Sans', sans-serif;
+  text-align: center;
+  transition: 1s;
+}
+
+  .logout:hover {
+    background-color: #ce0000;
+  }
