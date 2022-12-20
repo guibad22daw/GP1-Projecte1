@@ -12,7 +12,7 @@ git clone https://github.com/guibad22daw/GP1-Projecte1.git; cd GP1-Projecte1
 ```
 2.  Un cop dins de la carpeta, executar `npm install`. <br>
 
-3.  Amb un editor de text, editar la lnia 7 del fitxer <b>iniciaServidor.js</b> i col·locar la teva IP.
+3.  Amb un editor de text, editar la línia 7 del fitxer <b>iniciaServidor.js</b> i col·locar la teva IP.
 
 
 ## Fent funcionar el projecte
