@@ -17,10 +17,10 @@ git clone https://github.com/guibad22daw/GP1-Projecte1.git; cd GP2-Projecte1
 
 ## Fent funcionar el projecte
 
-Per executar el projecte, cal fer servir la comanda `node iniciaServidor.js`, que permetrà accedir a l'aplicació web a http://<LA-TEVA-IP>:8888 .
+Per executar el projecte, cal fer servir la comanda `node iniciaServidor.js`, que permetrà accedir a l'aplicació web a http://LA-TEVA-IP:8888/ .
 
 
 ## Documentació
 <ul>
-  <li><a href="https://nodejs.org/en/docs/"Node.js</a></li>
+  <li><a href="https://nodejs.org/en/docs/"</a>Node.js</li>
 </ul>
