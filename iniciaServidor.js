@@ -4,12 +4,11 @@ var cookie = require('cookie');
 const crypto = require('crypto');
 
 let MongoClient = require('mongodb').MongoClient;
-let assert = require('assert');     //utilitzem assercions
-let data = [];
+let ipServidor = '172.20.18.233';
 
 createAdmin();      // Crea l'usuari administrador en cas que no existeixi quan s'inicia el servidor.
 
-function onRequest(req, res) {
+const server = http.createServer((req, res) => {
     let sortida;
     const baseURL = req.protocol + '://' + req.headers.host + '/';
     const reqUrl = new URL(req.url, baseURL);
@@ -375,7 +374,7 @@ function onRequest(req, res) {
         res.end();
 
     }
-}
+});
 
 function hashPassword(password) {
     const salt = crypto.randomBytes(16).toString('hex');
@@ -406,5 +405,6 @@ async function createAdmin() {
     }
 }
 
-http.createServer(onRequest).listen(8888);
-console.log("Servidor iniciat.");
+server.listen(8888, ipServidor, () => {
+    console.log(`Servidor iniciat a http://${ipServidor}:8888`);
+});
