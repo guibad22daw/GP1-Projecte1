@@ -307,33 +307,6 @@ function onRequest(req, res) {
         });
     }
 
-    // CONSULTA
-    else if (ruta == '/consulta') {
-        MongoClient.connect(cadenaConnexio, function (err, client) {
-            assert.equal(null, err);
-            console.log("Connexió correcta");
-            var db = client.db('GP1');
-
-            res.writeHead(200, {
-                "Content-Type": "text/html; charset=utf-8"
-            });
-            console.log("consulta document a col·lecció usuaris");
-
-            let cursor = db.collection('proves').find({});
-
-            cursor.toArray((function (err, results) {
-                assert.equal(err, null);
-                if (results != null) {
-                    results.forEach((doc) => {
-                        res.write(`usuari: ${doc.nom} | password: ${doc.password} <br>`);
-                    });
-                } else {
-                    res.end();
-                }
-            }));
-        });
-    }
-
     else {
         res.writeHead(404, {
             "Content-Type": "text/html; charset=utf-8"
@@ -348,7 +321,7 @@ function onRequest(req, res) {
         try {
             await client.connect();
             const db = client.db('GP1');
-            const user = await db.collection('proves').findOne({ user: username });
+            const user = await db.collection('usuaris').findOne({ user: username });
             if (user) {
                 const [salt, hashedPassword] = user.password.split('$');
                 const hash = crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
@@ -377,7 +350,7 @@ function onRequest(req, res) {
         try {
             await client.connect();
             const db = client.db('GP1');
-            const result = await db.collection('proves').insertOne({ user: username, password: hashedPassword });
+            const result = await db.collection('usuaris').insertOne({ user: username, password: hashedPassword });
             console.log('Nou usuari creat.');
             fPosaCookie(result.insertedId, username);
         } catch (err) {
@@ -419,11 +392,11 @@ async function createAdmin() {
     try {
         await client.connect();
         const db = client.db('GP1');
-        const user = await db.collection('proves').findOne({ user: admin });
+        const user = await db.collection('usuaris').findOne({ user: admin });
         if (user) {
             return 0;
         } else {
-            const result = await db.collection('proves').insertOne({ user: admin, password: hashedPassword });
+            const result = await db.collection('usuaris').insertOne({ user: admin, password: hashedPassword });
             console.log('Usuari administrador creat.');
         }
     } catch (err) {
