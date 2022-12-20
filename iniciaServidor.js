@@ -148,7 +148,7 @@ function onRequest(req, res) {
           const events = JSON.parse(body);
           console.log(events); // ['a', 'b', 'c']
           collection.insertMany(events, function(err, result) {
-            console.log("Inserted documents into the collection");
+            console.log("Insertats documents a la colecció.");
           });
         });
     
