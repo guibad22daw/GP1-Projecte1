@@ -8,7 +8,7 @@ Cal tenir instal·lat <a href="https://nodejs.org/en/download/">Node.js</a> amb 
 
 1.  Obrir un terminal i executar 
 ```
-git clone https://github.com/guibad22daw/GP1-Projecte1.git; cd GP2-Projecte1
+git clone https://github.com/guibad22daw/GP1-Projecte1.git; cd GP1-Projecte1
 ```
 2.  Un cop dins de la carpeta, executar `npm install`. <br>
 
