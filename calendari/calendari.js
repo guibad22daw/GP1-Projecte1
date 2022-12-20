@@ -1,7 +1,6 @@
-window.onload = function () {
+window.onload = async function () {
     let nav = 0;
     let clicked = null;
-    let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
     const calendar = document.getElementById('calendar');
     const newEventModal = document.getElementById('newEventModal');
@@ -10,17 +9,29 @@ window.onload = function () {
     const eventTitleInput = document.getElementById('eventTitleInput');
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',];
     let eventForDay;
-    
+
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    async function getData() {
+        try {
+            const response = await fetch('/get-data');
+            const data = await response.json();
+            return data;
+        } catch(error) {
+            console.error(error);            
+        }
+    }
+    let events = await getData();
+    
     const username = getCookie('user');
     const idUsuari = getCookie('id');
 
-    if(!idUsuari || !username) {
+    if (!idUsuari || !username) {
         window.location.href = "/login";
     }
 
@@ -78,7 +89,7 @@ window.onload = function () {
             if (i > paddingDays) {
                 daySquare.innerText = i - paddingDays;
 
-                if(username == 'admin'){
+                if (username == 'admin') {
                     eventForDay = events.find(event => event.date == dayString);
                 } else {
                     eventForDay = events.find(event => event.id == idUsuari && event.date == dayString);
@@ -88,14 +99,14 @@ window.onload = function () {
                     daySquare.id = 'currentDay';
                 }
 
-                
+
                 if (eventForDay) {
                     const eventDiv = document.createElement('div');
                     eventDiv.classList.add('event');
-                    
+
 
                     eventDiv.innerText = eventForDay.title;
-                    if (eventDiv.innerText.includes('Rebre')){
+                    if (eventDiv.innerText.includes('Rebre')) {
                         eventDiv.setAttribute('id', 'rebre');
                     }
                     daySquare.appendChild(eventDiv);
@@ -131,6 +142,17 @@ window.onload = function () {
                 title: eventTitleInput.value,
             });
 
+            try {
+                fetch('/save-data', {
+                    method: 'POST',
+                    body: JSON.stringify(events),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            } catch(error){
+                console.error(error);
+            }
+
+
             localStorage.setItem('events', JSON.stringify(events));
             closeModal();
         } else {
@@ -139,16 +161,26 @@ window.onload = function () {
     }
 
     function deleteEvent() {
-        console.log(events);
         if (username == 'admin') { events = events.filter(event => event.date !== clicked); }
         else {
             const index = events.findIndex(event => event.user === username && event.date === clicked);
             if (index !== -1) {
                 events.splice(index, 1);
+                console.log(events);
+
             }
         }
+        try {
+            fetch('/save-data', {
+                method: 'POST',
+                body: JSON.stringify(events),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        } catch(error){
+            console.error(error);
+        }
         localStorage.setItem('events', JSON.stringify(events));
-        console.log(events);
+
         closeModal();
     }
 

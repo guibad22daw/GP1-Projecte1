@@ -5,6 +5,7 @@ const crypto = require('crypto');
 
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert');     //utilitzem assercions
+let data = [];
 
 createAdmin();      // Crea l'usuari administrador en cas que no existeixi quan s'inicia el servidor.
 
@@ -114,6 +115,46 @@ function onRequest(req, res) {
             res.end();
         });
     }
+
+    else if (ruta == '/get-data') {
+        const client = new MongoClient('mongodb://127.0.0.1:27017/');
+        const db = client.db('GP1');
+        const collection = db.collection("events");
+        collection.find().toArray()
+            .then(documents => {
+                res.writeHead(200, { 'Content-Type': 'text/json' });
+                res.end(JSON.stringify(documents));
+                client.close();
+            })
+            .catch(err => {
+                console.error(err);
+                client.close();
+            });
+
+    }
+
+    else if (ruta == '/save-data') {
+        const client = new MongoClient('mongodb://127.0.0.1:27017/');
+        const db = client.db('GP1');
+        const collection = db.collection("events");
+        collection.deleteMany({});
+        let body = '';
+
+        req.on('data', (chunk) => {
+          body += chunk;
+        });
+    
+        req.on('end', () => {
+          const events = JSON.parse(body);
+          console.log(events); // ['a', 'b', 'c']
+          collection.insertMany(events, function(err, result) {
+            console.log("Inserted documents into the collection");
+          });
+        });
+    
+        res.end();
+    }
+
     else if (ruta == '/calendari.png') {
         fs.readFile('./calendari/calendari.png', function (err, sortida) {
             res.writeHead(200, {
@@ -370,7 +411,7 @@ function hashPassword(password) {
     return [salt, hash].join('$');
 }
 
-async function createAdmin() {      
+async function createAdmin() {
     const admin = 'admin';
     const password = '12345678Ab_'
     const hashedPassword = hashPassword(password);
